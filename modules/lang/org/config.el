@@ -151,25 +151,30 @@ This forces it to read the background before rendering."
   (setq org-todo-keywords
         '((sequence
            "TODO(t)"  ; A task that needs doing & is ready to do
-           "PROJ(p)"  ; A project, which usually contains other tasks
+         ;;  "PROJ(p)"  ; A project, which usually contains other tasks
            "STRT(s)"  ; A task that is in progress
-           "WAIT(w)"  ; Something external is holding up this task
-           "HOLD(h)"  ; This task is paused/on hold because of me
+         ;;  "WAIT(w)"  ; Something external is holding up this task
+         ;;  "HOLD(h)"  ; This task is paused/on hold because of me
            "|"
            "DONE(d)"  ; Task successfully completed
-           "KILL(k)") ; Task was cancelled, aborted or is no longer applicable
-          (sequence
-           "[ ](T)"   ; A task that needs doing
-           "[-](S)"   ; Task is in progress
-           "[?](W)"   ; Task is being held up or paused
-           "|"
-           "[X](D)")) ; Task was completed
+         ;;  "KILL(k)")) ; Task was cancelled, aborted or is no longer applicable
+           "CANCELLED(c)"))
+         ;; (sequence
+         ;;  "[ ](T)"   ; A task that needs doing
+         ;;  "[-](S)"   ; Task is in progress
+         ;;  "[?](W)"   ; Task is being held up or paused
+         ;;  "|"
+         ;;  "[X](D)")) ; Task was completed
         org-todo-keyword-faces
         '(("[-]"  . +org-todo-active)
-          ("STRT" . +org-todo-active)
+         ;; ("STRT" . +org-todo-active)
           ("[?]"  . +org-todo-onhold)
           ("WAIT" . +org-todo-onhold)
           ("HOLD" . +org-todo-onhold)
+          ("TODO" :foreground "#fb4934" :weight bold :underline t)
+          ("STRT" :foreground "#d3869b" :weight bold :underline t)
+          ("DONE" :foreground "#98971a" :weight bold :underline t)
+          ("CANCELLED" :foreground "#928374" :weight bold :underline t)
           ("PROJ" . +org-todo-project)))
 
   (defadvice! +org-display-link-in-eldoc-a (&rest _)
@@ -294,9 +299,12 @@ I like:
         +org-capture-journal-file
         (expand-file-name +org-capture-journal-file org-directory)
         org-capture-templates
-        '(("t" "Personal todo" entry
-           (file+headline +org-capture-todo-file "Inbox")
-           "* [ ] %?\n%i\n%a" :prepend t)
+        '(
+          ("t" "Todo" entry (file+headline "~/org/gtd.org" "Get Things Done")
+           "* TODO %?\n  %i\n  %a")
+         ;; ("t" "Personal todo" entry
+         ;;  (file+headline +org-capture-todo-file "Inbox")
+         ;;  "* [ ] %?\n%i\n%a" :prepend t)
           ("n" "Personal notes" entry
            (file+headline +org-capture-notes-file "Inbox")
            "* %u %?\n%i\n%a" :prepend t)
